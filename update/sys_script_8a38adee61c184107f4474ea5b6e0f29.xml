@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script">
+    <sys_script action="INSERT_OR_UPDATE">
+        <abort_action>false</abort_action>
+        <access>package_private</access>
+        <action_delete>false</action_delete>
+        <action_insert>true</action_insert>
+        <action_query>false</action_query>
+        <action_update>true</action_update>
+        <active>true</active>
+        <add_message>false</add_message>
+        <advanced>true</advanced>
+        <change_fields>false</change_fields>
+        <client_callable>false</client_callable>
+        <collection>x_cdltd_loaner_req_loaner_request</collection>
+        <condition/>
+        <description/>
+        <execute_function>false</execute_function>
+        <filter_condition/>
+        <is_rest>false</is_rest>
+        <message/>
+        <name>Retrieved Credentials</name>
+        <order>100</order>
+        <priority>100</priority>
+        <rest_method/>
+        <rest_method_text/>
+        <rest_service/>
+        <rest_service_text/>
+        <rest_variables/>
+        <role_conditions/>
+        <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
+
+	gs.info('cy - running BR');
+	if(current.item_type == 'cmdb_ci_computer') {
+		var request = new sn_ws.RESTMessageV2();
+		request.setEndpoint('https://adf-nov4adgf-dev-001-instructor.lab.service-now.com/api/now/table/u_password_vault?sysparm_query=u_asset%3D' + current.cmdb_ci.asset_tag + '&sysparm_fields=u_password&sysparm_limit=1');
+		request.setHttpMethod('GET');
+
+		//Eg. UserName="admin", Password="admin" for this code sample.
+		var user = 'admin';
+		var password = 'adgf675';
+
+		request.setBasicAuth(user,password);
+		request.setRequestHeader("Accept","application/json");
+
+		var response = request.execute();
+		gs.info(response.getBody());
+		
+		var obj = JSON.parse(request.getBody());
+		var myPass = obj.result[0].u_password;
+		gs.info('u_password: ' + myPass);
+		
+	}
+
+
+})(current, previous);]]></script>
+        <sys_class_name>sys_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-11-14 06:07:00</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>8a38adee61c184107f4474ea5b6e0f29</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>Retrieved Credentials</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Loaner Request" source="x_cdltd_loaner_req">42decfb5618d04107f4474ea5b6e0f61</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Loaner Request">42decfb5618d04107f4474ea5b6e0f61</sys_scope>
+        <sys_update_name>sys_script_8a38adee61c184107f4474ea5b6e0f29</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-11-14 06:09:42</sys_updated_on>
+        <template/>
+        <when>async</when>
+    </sys_script>
+    <sys_translated_text action="delete_multiple" query="documentkey=8a38adee61c184107f4474ea5b6e0f29"/>
+</record_update>
